@@ -1,0 +1,8 @@
+<resources>
+    <!-- What's up with these?
+    <bool name="config_cyanogenmod">true</bool>
+    <bool name="config_hardwareAccelerated">true</bool>
+    -->
+    <integer name="cell_count_x">4</integer>
+    <integer name="cell_count_y">5</integer>
+</resources>

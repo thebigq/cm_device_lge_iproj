@@ -1,0 +1,61 @@
+#
+# system.prop for iproj
+#
+
+# Radio
+mobiledata.interfaces=rmnet_sdio0,rmnet_sdio1
+rild.libpath=/system/lib/libril-qc-qmi-1.so
+rild.libargs=-d /dev/smd0
+
+DEVICE_PROVISIONED=1
+ro.telephony.default_network=9
+ro.telephony.lteOnCDMADevice=1
+ro.telephony.ril_class=LGEQualcommUiccRIL
+ro.telephony.ril.v3=qcomuiccstack
+ro.ril.shutdown=true
+
+ro.com.google.clientidbase=android-lge
+ro.com.google.clientidbase.gmm=android-lge
+ro.com.google.clientidbase.yt=android-lge
+
+## Wifi
+wifi.supplicant_scan_interval=20
+wifi.interface=wlan0
+
+## opengles 2.0
+ro.opengles.version=131072
+
+## audio
+persist.audio.handset.mic=digital
+persist.audio.fluence.mode=endfire
+persist.audio.vr.enable=false
+
+## camera
+ro.product.camera=iproj
+
+## system prop for sound exeption
+ro.lge.sound.case.exception=true
+
+## Screen config
+ro.sf.lcd_density=320
+windowsmgr.max_events_per_sec=150
+debug.sf.hw=1
+debug.enabletr=true
+com.qc.hardware=true
+
+ro.hdmi.enable=true
+com.qc.hdmi_out=true
+
+# Faster transfer rate for net connections
+net.tcp.buffersize.default=4096,87380,256960,4096, 16384,256960
+net.tcp.buffersize.wifi=4096,87380,256960,4096,163 84,256960
+
+#Improve Scrolling Build.prop Tweak
+ro.max.fling_velocity=12000
+ro.min.fling_velocity=8000
+
+#Disable_ADB_Notification_Icon
+persist.adb.notify=0
+
+debug.mdpcomp.maxlayer=3
+debug.mdpcomp.logs=0
