@@ -1,3 +1,7 @@
+PRODUCT_COPY_FILES += \
+	device/lge/iproj/configs/media_profiles.xml:system/etc/media_profiles.xml \
+	device/lge/iproj/configs/media_codecs.xml:system/etc/media_codecs.xml
+
 $(call inherit-product, build/target/product/full.mk)
 
 $(call inherit-product, build/target/product/languages_small.mk)
@@ -36,9 +40,6 @@ PRODUCT_COPY_FILES += \
 	frameworks/native/data/etc/android.hardware.usb.accessory.xml:system/etc/permissions/android.hardware.usb.accessory.xml \
 	frameworks/native/data/etc/android.hardware.wifi.direct.xml:system/etc/permissions/android.hardware.wifi.direct.xml
 
-PRODUCT_COPY_FILES += \
-	device/lge/iproj/config/media_profiles.xml:system/etc/media_profiles.xml \
-	device/lge/iproj/config/media_codecs.xml:system/etc/media_codecs.xml
 
 PRODUCT_COPY_FILES += \
 	device/lge/iproj/configs/audio_policy.conf:system/vendor/etc/audio_policy.conf
