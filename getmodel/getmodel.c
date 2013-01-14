@@ -34,6 +34,9 @@ static const struct baseband_info baseband_table[] =
     // vzw  ZV7 (ortrigger @ af)
     { "M8660A-AABQNSZM-3.6.2421", "i_vzw" },
 
+    // lgu V??? (msjd @ xda)
+    { "8660-AAABQNBYA-362421", "i_lgu" },
+
     { NULL, NULL }
 };
 
@@ -46,7 +49,7 @@ read_soc_props(void)
     char model[256];
     char baseband[256];
     char* p;
-    struct baseband_info* info;
+    const struct baseband_info* info;
 
     fd = open("/sys/devices/system/soc/soc0/build_id", O_RDONLY);
     if (fd < 0) {
@@ -73,6 +76,15 @@ read_soc_props(void)
         if (!strcmp(baseband, info->baseband)) {
             strcpy(model, info->model);
             break;
+        }
+    }
+
+    /* SU640 reportedly has same build_id as P930 */
+    if (!strcmp(model, "i_atnt")) {
+        char value[PROPERTY_VALUE_MAX];
+        property_get("ro.product.device", value, "");
+        if (!strcmp(value, "su640")) {
+            strcpy(model, "i_skt");
         }
     }
 
