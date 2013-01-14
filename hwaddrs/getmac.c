@@ -20,42 +20,64 @@
 #include <fcntl.h>
 #include <cutils/properties.h>
 
-extern void nv_cmd_remote(int,int,void*);
+#define BT_ADDR_FILE "/data/misc/bd_addr"
+#define WIFI_ADDR_FILE "/data/misc/wifi/config"
+
 extern void oncrpc_init();
 extern void oncrpc_task_start();
+extern void nv_cmd_remote(int, int, void*);
 
+static int set_bt_mac(void)
+{
+	struct stat st;
+	FILE *fd;
+	char mac[PROPERTY_VALUE_MAX];
+
+	if (stat(BT_ADDR_FILE, &st) == 0)
+	        return 0;
+
+	property_get("service.brcm.bt.mac",mac,"010203040506");
+	fd = fopen(BT_ADDR_FILE, "w");
+	fprintf(fd, "%c%c:%c%c:%c%c:%c%c:%c%c:%c%c\n",
+	        mac[0], mac[1], mac[2], mac[3], mac[4], mac[5],
+	        mac[6], mac[7], mac[8], mac[9], mac[10], mac[11]);
+	fclose(fd);
+
+	return 0;
+}
+
+/*
+ * Get the wlan MAC from nv. This attempts to replicate the
+ * wifi_read_mac_address function from the stock software
+ */
+static int set_wifi_mac(void)
+{
+	struct stat st;
+	FILE *fd;
+	unsigned char mac[8];
+
+	if (stat(WIFI_ADDR_FILE, &st) == 0)
+	        return 0;
+
+	memset(mac, 0, sizeof(mac)*sizeof(unsigned char));
+	oncrpc_init();
+	oncrpc_task_start();
+	nv_cmd_remote(0, 0x1246, &mac);
+
+	if (mac[0] == 0 && mac[1] == 0)
+		return -1;
+
+	fd = fopen(WIFI_ADDR_FILE, "w");
+	fprintf(fd,"cur_etheraddr=%02x:%02x:%02x:%02x:%02x:%02x\n",
+		mac[0], mac[1], mac[2], mac[3], mac[4], mac[5]);
+	fclose(fd);
+
+	return 0;
+}
 
 /* Read properties and set MAC addresses accordingly */
-/* Get the wlan MAC from nv. This attempts to replicate the
-   wifi_read_mac_address function from the stock software */
-
 int main() {
-	int fd1; FILE *fd;
-	int macbyte;
-	int i;
-	char mMacAddr[PROPERTY_VALUE_MAX];
-	int mac[2] = { 0, };
-
-	property_get("service.brcm.bt.mac",mMacAddr,"010203040506");
-	fd = fopen("/data/misc/bd_addr","w");
-	fprintf(fd,"%c%c:%c%c:%c%c:%c%c:%c%c:%c%c\n",mMacAddr[0], mMacAddr[1], mMacAddr[2], mMacAddr[3], mMacAddr[4], mMacAddr[5], mMacAddr[6], mMacAddr[7], mMacAddr[8], mMacAddr[9], mMacAddr[10], mMacAddr[11]);
-	fclose(fd);
-
-
-	oncrpc_init(); oncrpc_task_start();
-	nv_cmd_remote(0,0x1246,&mac);
-
-	if (mac[0] == 0)
-		return 0;
-
-	fd = fopen("/data/misc/wifi/config","w");
-	fprintf(fd,"cur_etheraddr=%.2x:%.2x:%.2x:%.2x:%.2x:%.2x\n",
-			mac[0]&0xFF,
-			(mac[0]&0xFF00) >> 8,
-			(mac[0]&0xFF0000) >> 16,
-			(mac[0]&0xFF000000) >> 24,
-			mac[1]&0xFF,
-			(mac[1]&0xFF00) >> 8);
-	fclose(fd);
+        set_bt_mac();
+        set_wifi_mac();
 	return 0;
 }
