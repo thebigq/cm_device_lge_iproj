@@ -69,14 +69,6 @@ case "$target" in
     ;;
 esac
 
-case "$target" in
-    "p930" | "su640" | "i_atnt" )
-        if [ "`getprop gsm.version.baseband`" == "" ]; then
-            setprop gsm.version.baseband `dd if=/dev/block/mmcblk0p14 bs=128000 count=10 | strings |grep -- "-MDM92" | head -1`
-        fi
-    ;;
-esac
-
 usb_config=`getprop persist.sys.usb.config`
 case "$usb_config" in
     "") #USB persist config not set, select default configuration

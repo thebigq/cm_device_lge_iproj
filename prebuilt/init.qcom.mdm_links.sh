@@ -32,16 +32,14 @@
 PATH=/sbin:/system/sbin:/system/bin:/system/xbin
 export PATH
 
-# Changed partition layout and size, 20110521
-mount -t ext4 -o remount,rw,barrier=0 /dev/block/mmcblk0p27 /system
+target=`getprop ro.product.device`
+
+mount -o remount,rw /system /system
 
 mkdir /system/etc/firmware/misc_mdm
 chmod 771  /system/etc/firmware/misc_mdm
 chown system.system /system/etc/firmware/misc_mdm
-#[LGE_UPDATE_S] removed other-writable permission, which is ATT requirement.
-#mount -t vfat -o ro,shortname=lower /dev/block/mmcblk0p14 /system/etc/firmware/misc_mdm
 mount -t vfat -o ro,shortname=lower,umask=0027,uid=1000,gid=1000 /dev/block/mmcblk0p14 /system/etc/firmware/misc_mdm	#rwxrwxr--
-#[LGE_UPDATE_E] by jaein.lee(2011.06.29)
 
 MISC_MDM=/system/etc/firmware/misc_mdm/image
 cd $MISC_MDM
@@ -54,8 +52,17 @@ ln -s $MISC_MDM/efs1.mbn /system/etc/firmware/efs1.mbn 2>/dev/null
 ln -s $MISC_MDM/efs2.mbn /system/etc/firmware/efs2.mbn 2>/dev/null
 ln -s $MISC_MDM/efs3.mbn /system/etc/firmware/efs3.mbn 2>/dev/null
 
-mount -t ext4 -o remount,ro,barrier=0 /dev/block/mmcblk0p27 /system
+# Set baseband version
+case "$target" in
+  "i_atnt" | "i_skt" | "i_lgu")
+	setprop gsm.version.baseband `strings -n 12 $MISC_MDM/amss.mbn | grep MDM9200 | head -1`
+	;;
+  "i_vzw")
+	# i_vzw string is not present in amss.bin, and is tricky to extract
+	setprop gsm.version.baseband `strings -n 12 /firmware/image/modem.b05 | grep -o "VS920.*-M8660.*" | head -1`
+	;;
+esac
+
+mount -o remount,ro /system /system
 
 cd /
-
-

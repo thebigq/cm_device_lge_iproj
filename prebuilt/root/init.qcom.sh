@@ -26,8 +26,6 @@
 # ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #
 
-#platform.team@lge.com 2011.02.15
-setprop ro.sf.lcd_density 320
 #
 # start ril-daemon only for targets on which radio is present
 #
