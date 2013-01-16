@@ -52,17 +52,6 @@ ln -s $MISC_MDM/efs1.mbn /system/etc/firmware/efs1.mbn 2>/dev/null
 ln -s $MISC_MDM/efs2.mbn /system/etc/firmware/efs2.mbn 2>/dev/null
 ln -s $MISC_MDM/efs3.mbn /system/etc/firmware/efs3.mbn 2>/dev/null
 
-# Set baseband version
-case "$target" in
-  "i_atnt" | "i_skt" | "i_lgu")
-	setprop gsm.version.baseband `strings -n 12 $MISC_MDM/amss.mbn | grep MDM9200 | head -1`
-	;;
-  "i_vzw")
-	# i_vzw string is not present in amss.bin, and is tricky to extract
-	setprop gsm.version.baseband `strings -n 12 /firmware/image/modem.b05 | grep -o "VS920.*-M8660.*" | head -1`
-	;;
-esac
-
 mount -o remount,ro /system /system
 
 cd /

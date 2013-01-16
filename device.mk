@@ -52,7 +52,8 @@ PRODUCT_COPY_FILES += \
 PRODUCT_COPY_FILES += \
 	device/lge/iproj/prebuilt/init.qcom.post_boot.sh:system/etc/init.qcom.post_boot.sh \
 	device/lge/iproj/prebuilt/init.qcom.modem_links.sh:system/etc/init.qcom.modem_links.sh \
-	device/lge/iproj/prebuilt/init.qcom.mdm_links.sh:system/etc/init.qcom.mdm_links.sh
+	device/lge/iproj/prebuilt/init.qcom.mdm_links.sh:system/etc/init.qcom.mdm_links.sh \
+	device/lge/iproj/prebuilt/init.qcom.baseband.sh:system/etc/init.qcom.baseband.sh
 
 # Configs
 PRODUCT_COPY_FILES += \
