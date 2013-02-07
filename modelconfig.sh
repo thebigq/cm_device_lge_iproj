@@ -2,7 +2,7 @@
 
 PRODUCT_REMOVE_FILES=""
 
-PRODUCT_REMOVE_RES="{layout,drawable,mipmap,menu,xml}-{large,sw580,sw768,xlarge}*"
+PRODUCT_REMOVE_RES="{layout,drawable,mipmap,menu,xml}-{large,sw768,xlarge}*"
 
 # Keep only en, fr, it, de, es
 PACKAGE_REMOVE_FILES="
