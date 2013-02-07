@@ -124,6 +124,7 @@ PRODUCT_COPY_FILES += \
 	$(TARGET_PREBUILT_KERNEL):kernel
 PRODUCT_COPY_FILES += \
 	$(foreach mod,$(TARGET_PREBUILT_MODULES),$(mod):system/lib/modules/$(notdir $(mod)))
+$(PRODUCT_OUT)/kernel: $(foreach mod,$(TARGET_PREBUILT_MODULES),$(PRODUCT_OUT)/system/lib/modules/$(notdir $(mod)))
 endif
 
 TARGET_OTA_ASSERT_DEVICE := auto
