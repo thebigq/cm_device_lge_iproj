@@ -30,12 +30,12 @@ static const struct baseband_info baseband_table[] =
 
     // vzw  ZV6 (tdm)
     { "8660-AAABQNBYA-3161H", "i_vzw" },
+    // vzw ZV3? (beddybeezy @ af)
+    // lgu V??? (msjd @ xda)
+    { "8660-AAABQNBYA-362421", "i_vzw" },
 
     // vzw  ZV7 (ortrigger @ af)
     { "M8660A-AABQNSZM-3.6.2421", "i_vzw" },
-
-    // lgu V??? (msjd @ xda)
-    { "8660-AAABQNBYA-362421", "i_lgu" },
 
     { NULL, NULL }
 };
@@ -85,6 +85,15 @@ read_soc_props(void)
         property_get("ro.product.device", value, "");
         if (!strcmp(value, "su640")) {
             strcpy(model, "i_skt");
+        }
+    }
+
+    /* LU6200 reportedly has the same build_id as VS920 */
+    if (!strcmp(model, "i_vzw")) {
+        char value[PROPERTY_VALUE_MAX];
+        property_get("ro.product.device", value, "");
+        if (!strcmp(value, "lu6200")) {
+            strcpy(model, "i_lgu");
         }
     }
 
