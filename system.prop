@@ -5,7 +5,6 @@
 # Radio
 mobiledata.interfaces=rmnet_sdio0,rmnet_sdio1
 rild.libpath=/system/lib/libril-qc-qmi-1.so
-rild.libargs=-d /dev/smd0
 
 DEVICE_PROVISIONED=1
 ro.telephony.default_network=9

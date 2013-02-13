@@ -70,15 +70,12 @@ ifeq ($(TARGET_PRODUCT),cm_iproj) # XXX
 
 $(call inherit-product-if-exists, vendor/lge/iproj/iproj-vendor.mk)
 
-# Bluetooth
-PRODUCT_COPY_FILES += \
-	device/lge/iproj/prebuilt/init.qcom.bt.sh:system/bin/init.qcom.bt.sh
-
 PRODUCT_COPY_FILES += \
 	device/lge/iproj/prebuilt/root/init.iproj.rc:root/init.iproj.rc \
 	device/lge/iproj/prebuilt/root/init.iproj.usb.rc:root/init.iproj.usb.rc \
 	device/lge/iproj/prebuilt/root/init.qcom.sh:root/init.qcom.sh \
-	device/lge/iproj/prebuilt/root/ueventd.iproj.rc:root/ueventd.iproj.rc
+	device/lge/iproj/prebuilt/root/ueventd.iproj.rc:root/ueventd.iproj.rc \
+	device/lge/iproj/prebuilt/root/fstab.iproj:root/fstab.iproj
 
 endif # TARGET_PRODUCT == cm_iproj
 
@@ -112,8 +109,6 @@ PRODUCT_PACKAGES += \
 	libOmxCore
 
 PRODUCT_PACKAGES += \
-	hcitool \
-	hciconfig \
 	hwaddrs
 
 PRODUCT_PACKAGES += \
